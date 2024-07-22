@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Latest Questions</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                padding: 20px;
+            }
+
+            h2 {
+                color: #333;
+            }
+
+            ul#question-list {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            ul#question-list li {
+                margin-bottom: 10px;
+                background-color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            ul#question-list li a {
+                color: #007bff;
+                text-decoration: none;
+                font-size: 18px;
+            }
+
+            ul#question-list li a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Latest Questions:</h2>
+        <ul id="question-list">
+            <!-- Questions will be displayed here -->
+        </ul>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                // Fetch latest questions from Django view
+                fetch('{% url "polls:get_questions" %}')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const questions = data.questions;
+                        const questionList =
+                            document.getElementById("question-list");
+
+                        questions.forEach((question) => {
+                            const li = document.createElement("li");
+                            const a = document.createElement("a");
+                            a.textContent = question.question_text;
+                            a.href = `/polls/${question.q_id}/`; // Correct URL pattern assuming /polls/<question_id>/
+                            li.appendChild(a);
+                            questionList.appendChild(li);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Error fetching latest questions:",
+                            error,
+                        );
+                    });
+            });
+        </script>
+    </body>
+</html>

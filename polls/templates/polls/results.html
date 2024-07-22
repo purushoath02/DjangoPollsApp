@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Question Details</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f9f9f9;
+                padding: 20px;
+            }
+
+            h1 {
+                color: #333;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            ul li {
+                margin-bottom: 10px;
+                background-color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            ul li a {
+                color: #007bff;
+                text-decoration: none;
+                font-size: 16px;
+                margin-top: 5px;
+                display: inline-block;
+            }
+
+            ul li a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{ question.question_text }}</h1>
+
+        <ul>
+            {% for choice in question.choice_set.all %}
+            <li>
+                {{ choice.choice_text }} -- {{ choice.votes }} vote{{
+                choice.votes|pluralize }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+
+        <script>
+            // If you have JavaScript specific to this section, include it here
+        </script>
+    </body>
+</html>
